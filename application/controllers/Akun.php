@@ -19,14 +19,15 @@ class Akun extends CI_Controller{
 		if($loginvalid){
 			$data['logged_in'] = true;
 		}
-		$data['session']['username'] = $this->session->userdata('username');
-		$data['session']['password'] = $this->session->userdata('password');
-		$this->load->view('templates/header',$data);
 		if($loginvalid)
-			$this->load->view('pages/post_dashboard',$data);
-		else
+			redirect('/post', 'refresh');
+		else{
+			$data['session']['username'] = $this->session->userdata('username');
+			$data['session']['password'] = $this->session->userdata('password');
+			$this->load->view('templates/header',$data);
 			$this->load->view('pages/login',$data);
-		$this->load->view('templates/footer');
+			$this->load->view('templates/footer');
+		}
 	}
 	
 	function update(){
@@ -61,11 +62,14 @@ class Akun extends CI_Controller{
 		$katasandi = $user['katasandi'];
 		$session_data = array(
 				'username' => $username,
-				'password' => $katasandi
+				'password' => $katasandi,
+				
 
 		);
 		if($this->model_pengguna->masuk($username, $katasandi))
 		{
+			$user = $this->model_pengguna->getByUsername($username);
+			$session_data['id'] = $user['id'];
 			$this->session->set_userdata($session_data);
 			echo true;
 		}else{
@@ -120,15 +124,16 @@ class Akun extends CI_Controller{
 	}
 
 	function validateLogin(){
-		$username = $this->session->userdata('username');
-		$password= $this->session->userdata('password');
+		$username = $this->session->userdata('username') ? $this->session->userdata('username'):null;
+		$password= $this->session->userdata('password') ?$this->session->userdata('password'):null;
 		return 	$this->model_pengguna->masuk($username, $password);
 	}
 
 	function keluar(){
 		$this->session->sess_destroy();
+		redirect('/akun', 'refresh');
 	}
-	
+
 	
 	
 	

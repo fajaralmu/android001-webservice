@@ -29,11 +29,8 @@ class Model_pengguna extends CI_Model{
 			return false;
 			
 	}
-
 	
-
-	
-	function dapatkan_pengguna_username($username){
+	function getByUsername($username){
 		$query = $this->db->get_where('guru',array('namapengguna'=>$username));
 		$data = $query->row_array();
 		$query->free_result();

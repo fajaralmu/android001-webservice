@@ -26,7 +26,7 @@
                 </td>
             </tr>
         </table>
-
+        
     </div>
     <script type="text/javascript">
         var username_field = document.getElementById('username');
@@ -45,8 +45,10 @@
             alert("LOGIN "+username+" and "+password);
             ajax("<?=base_url()."index.php/akun/masuk"?>",user,
             function(data){
-                if(data==1)
+                if(data==1){
                     alert("login SUCCESS "+data);
+                    window.open("<?=base_url()."/index.php/post"?>","_self")
+                }
                 else 
                     alert("login gagal");
             },

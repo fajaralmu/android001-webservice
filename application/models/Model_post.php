@@ -27,12 +27,14 @@ class Model_post extends CI_Model{
 	
 
 	
-	function dapatkan_post($postname){
-		$query = $this->db->get_where('post',array('nama'=>$postname));
-		$data = $query->row_array();
+	function findByIdGuru($id){
+		$query = $this->db->get_where('post',array('idguru'=>$id));
+		$data = $query->result();
 		$query->free_result();
 		return $data;
 	}
+
+
 
 	function dapatkan_post_id($id){
 		$query = $this->db->get_where('post',array('id'=>$id));
